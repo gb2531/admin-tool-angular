@@ -1,0 +1,212 @@
+<form
+  [formGroup]="appointmentForm"
+  (ngSubmit)="onSubmit()"
+  class="appointment-form"
+>
+  <h2>{{ isUpdateMode ? "Update Appointment" : "Create New Appointment" }}</h2>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label for="patientName">Patient Name</label>
+      <input
+        type="text"
+        id="patientName"
+        formControlName="patientName"
+        class="form-control"
+        placeholder="Enter patient name"
+        [class.is-invalid]="
+          appointmentForm.get('patientName')?.invalid &&
+          appointmentForm.get('patientName')?.touched
+        "
+      />
+      <div
+        class="invalid-feedback"
+        *ngIf="
+          appointmentForm.get('patientName')?.invalid &&
+          appointmentForm.get('patientName')?.touched
+        "
+      >
+        {{ getErrorMessage("patientName") }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="service">Service</label>
+      <select
+        id="service"
+        formControlName="service"
+        class="form-control"
+        [class.is-invalid]="
+          appointmentForm.get('service')?.invalid &&
+          appointmentForm.get('service')?.touched
+        "
+      >
+        <option value="">Select a service</option>
+        <option
+          *ngFor="let service of availableServices"
+          [value]="service.name"
+        >
+          {{ service.name }} ({{ service.duration }} minutes)
+        </option>
+      </select>
+      <div
+        class="invalid-feedback"
+        *ngIf="
+          appointmentForm.get('service')?.invalid &&
+          appointmentForm.get('service')?.touched
+        "
+      >
+        {{ getErrorMessage("service") }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="date">Date</label>
+      <input
+        type="date"
+        id="date"
+        formControlName="date"
+        class="form-control"
+        [min]="minDate"
+        [class.is-invalid]="
+          appointmentForm.get('date')?.invalid &&
+          appointmentForm.get('date')?.touched
+        "
+      />
+      <div
+        class="invalid-feedback"
+        *ngIf="
+          appointmentForm.get('date')?.invalid &&
+          appointmentForm.get('date')?.touched
+        "
+      >
+        {{ getErrorMessage("date") }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="time">Time</label>
+      <select
+        id="time"
+        formControlName="time"
+        class="form-control"
+        [class.is-invalid]="
+          appointmentForm.get('time')?.invalid &&
+          appointmentForm.get('time')?.touched
+        "
+      >
+        <option value="">Select a time</option>
+        <option *ngFor="let slot of timeSlots" [value]="slot">
+          {{ slot }}
+        </option>
+      </select>
+      <div
+        class="invalid-feedback"
+        *ngIf="
+          appointmentForm.get('time')?.invalid &&
+          appointmentForm.get('time')?.touched
+        "
+      >
+        {{ getErrorMessage("time") }}
+      </div>
+      <div
+        class="text-danger mt-1"
+        *ngIf="appointmentForm.get('time')?.errors?.['timeSlotConflict']"
+      >
+        <small
+          >This time slot is already booked for the selected service. Please
+          choose a different time.</small
+        >
+      </div>
+      <div class="info-message">
+        <small>Business hours: 9:00 AM to 5:00 PM</small>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="duration">Duration (minutes)</label>
+      <input
+        type="number"
+        id="duration"
+        formControlName="duration"
+        class="form-control form-control-readonly"
+        readonly
+        [class.is-invalid]="
+          appointmentForm.get('duration')?.invalid &&
+          appointmentForm.get('duration')?.touched
+        "
+      />
+      <div
+        class="invalid-feedback"
+        *ngIf="
+          appointmentForm.get('duration')?.invalid &&
+          appointmentForm.get('duration')?.touched
+        "
+      >
+        {{ getErrorMessage("duration") }}
+      </div>
+      <div class="info-message">
+        Duration is set automatically based on the selected service
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="status">Status</label>
+      <select
+        id="status"
+        formControlName="status"
+        class="form-control"
+        [class.is-invalid]="
+          appointmentForm.get('status')?.invalid &&
+          appointmentForm.get('status')?.touched
+        "
+      >
+        <option value="scheduled">Scheduled</option>
+        <option value="completed">Completed</option>
+        <option value="cancelled">Cancelled</option>
+      </select>
+      <div
+        class="invalid-feedback"
+        *ngIf="
+          appointmentForm.get('status')?.invalid &&
+          appointmentForm.get('status')?.touched
+        "
+      >
+        {{ getErrorMessage("status") }}
+      </div>
+    </div>
+
+    <div class="form-group form-group-full">
+      <label for="description">Description</label>
+      <textarea
+        id="description"
+        formControlName="description"
+        class="form-control"
+        placeholder="Enter appointment description"
+        rows="3"
+        [class.is-invalid]="
+          appointmentForm.get('description')?.invalid &&
+          appointmentForm.get('description')?.touched
+        "
+      ></textarea>
+      <div
+        class="invalid-feedback"
+        *ngIf="
+          appointmentForm.get('description')?.invalid &&
+          appointmentForm.get('description')?.touched
+        "
+      >
+        {{ getErrorMessage("description") }}
+      </div>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary">
+      {{ isUpdateMode ? "Update" : "Schedule" }} Appointment
+    </button>
+    <button type="button" class="btn btn-secondary" (click)="onCancel()">
+      Cancel
+    </button>
+  </div>
+</form>

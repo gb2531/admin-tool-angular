@@ -1,0 +1,101 @@
+<div class="calendar-container">
+  <div class="calendar-header">
+    <div class="nav-controls">
+      <button class="btn" (click)="previousDate()">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <h3>{{ viewDate | date : "MMMM y" }}</h3>
+      <button class="btn" (click)="nextDate()">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <mwl-calendar-month-view
+    [viewDate]="viewDate"
+    [events]="events"
+    [refresh]="refresh"
+    [activeDayIsOpen]="activeDayIsOpen"
+    (dayClicked)="dayClicked($event)"
+    [excludeDays]="excludeDays"
+    [weekStartsOn]="weekStartsOn"
+    [cellTemplate]="customCellTemplate"
+  >
+  </mwl-calendar-month-view>
+
+  <ng-template #customCellTemplate let-day="day" let-locale="locale">
+    <div class="cal-cell-top" [class.past-day]="day.date < today">
+      <span class="cal-day-badge" *ngIf="day.badgeTotal > 0">{{
+        day.badgeTotal
+      }}</span>
+      <span class="cal-day-number">{{ day.date | date : "d" }}</span>
+    </div>
+    <div class="cal-events" *ngIf="day.events.length > 0">
+      <div
+        class="cal-event"
+        *ngFor="let event of day.events"
+        [style.backgroundColor]="event.color?.primary"
+      ></div>
+    </div>
+  </ng-template>
+
+  <!-- Time Slots Dialog -->
+  <div class="time-slots-container" *ngIf="selectedDate">
+    <div class="time-slots-header">
+      <h3>
+        {{ isPastDate() ? "View Appointments for" : "Book Appointment for" }}
+        {{ selectedDate | date : "mediumDate" }}
+      </h3>
+      <button class="close-btn" (click)="selectedDate = null">×</button>
+    </div>
+
+    <!-- Service Selection Dropdown -->
+    <div class="service-selection">
+      <h4>Select Service</h4>
+      <select
+        class="service-dropdown"
+        [(ngModel)]="selectedService"
+        (ngModelChange)="onServiceSelect($event)"
+      >
+        <option value="">Choose a service</option>
+        <option
+          *ngFor="let service of availableServices"
+          [value]="service.name"
+        >
+          {{ service.name }} ({{ service.duration }} mins)
+        </option>
+      </select>
+    </div>
+
+    <!-- Time Slots -->
+    <div class="time-slots-section" *ngIf="selectedService">
+      <h4>{{ isPastDate() ? "Appointments" : "Select Time Slot" }}</h4>
+      <div class="time-slots-grid">
+        <button
+          *ngFor="let slot of timeSlots"
+          class="time-slot"
+          [class.taken]="isTimeSlotTaken(slot)"
+          [class.past]="isPastDate()"
+          [disabled]="isTimeSlotTaken(slot) || isPastDate()"
+          (click)="onTimeSlotSelect(slot)"
+        >
+          {{ slot }}
+        </button>
+      </div>
+    </div>
+
+    <div class="no-service-message" *ngIf="!selectedService">
+      <p>
+        Please select a service to view
+        {{ isPastDate() ? "past appointments" : "available time slots" }}
+      </p>
+    </div>
+
+    <div class="past-date-message" *ngIf="isPastDate()">
+      <p>
+        This is a past date. You can view appointments but cannot make new
+        bookings.
+      </p>
+    </div>
+  </div>
+</div>

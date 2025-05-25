@@ -1,0 +1,79 @@
+<div class="dashboard-container">
+  <div
+    class="side-menu"
+    [class.collapsed]="isMenuCollapsed"
+    [class.hover-expanded]="isHoverExpanded"
+    (mouseenter)="onMenuHover(true)"
+    (mouseleave)="onMenuHover(false)"
+  >
+    <div class="menu-header">
+      <h2>Admin Panel</h2>
+    </div>
+    <nav class="menu-items">
+      <a
+        routerLink="/dashboard"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="menu-item"
+      >
+        <div class="icon-container">
+          <i class="fas fa-tachometer-alt"></i>
+        </div>
+        <span>Dashboard</span>
+      </a>
+      <a
+        routerLink="/dashboard/calendar"
+        routerLinkActive="active"
+        class="menu-item"
+      >
+        <div class="icon-container">
+          <i class="fas fa-calendar-alt"></i>
+        </div>
+        <span>Calendar</span>
+      </a>
+      <a
+        routerLink="/dashboard/appointments/new"
+        routerLinkActive="active"
+        class="menu-item"
+      >
+        <div class="icon-container">
+          <i class="fas fa-plus-circle"></i>
+        </div>
+        <span>New Appointment</span>
+      </a>
+    </nav>
+  </div>
+
+  <!-- Main Content Area -->
+  <div
+    class="main-content"
+    [class.collapsed]="isMenuCollapsed && !isHoverExpanded"
+  >
+    <div class="top-bar">
+      <button class="menu-toggle" (click)="toggleMenu()">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="user-info">
+        <span>Welcome, Admin</span>
+        <div
+          class="profile-dropdown"
+          (click)="toggleProfileDropdown()"
+          [class.active]="isProfileDropdownOpen"
+        >
+          <div class="profile-icon">
+            <i class="fas fa-user-circle"></i>
+          </div>
+          <div class="dropdown-menu" *ngIf="isProfileDropdownOpen">
+            <div class="dropdown-item" (click)="signOut()">
+              <i class="fas fa-sign-out-alt"></i>
+              <span>Sign Out</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="content-area">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

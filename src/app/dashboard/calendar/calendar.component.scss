@@ -1,0 +1,228 @@
+.calendar-container {
+  padding: 20px;
+  height: 100%;
+  position: relative;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .past-day {
+    opacity: 0.5;
+    background-color: #f5f5f5;
+    cursor: default;
+
+    .cal-day-number {
+      color: #999;
+    }
+  }
+
+  .cal-cell-top {
+    min-height: 40px;
+  }
+}
+
+.calendar-header {
+  margin-bottom: 20px;
+
+  .nav-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+
+    h3 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: #2c3e50;
+      min-width: 200px;
+      text-align: center;
+    }
+
+    .btn {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      border: 1px solid #e0e0e0;
+      background: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background: #f5f5f5;
+        border-color: #2196f3;
+        color: #2196f3;
+      }
+    }
+  }
+}
+
+.time-slots-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  z-index: 1000;
+
+  .time-slots-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    h3 {
+      margin: 0;
+      color: #2c3e50;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: #666;
+      cursor: pointer;
+      padding: 0;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background: #f5f5f5;
+      }
+    }
+  }
+
+  h4 {
+    margin: 0 0 15px;
+    color: #2c3e50;
+    font-size: 1.1rem;
+  }
+
+  .service-selection {
+    margin-bottom: 20px;
+
+    .service-dropdown {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      background: white;
+      font-size: 1rem;
+      color: #2c3e50;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover,
+      &:focus {
+        border-color: #2196f3;
+        outline: none;
+      }
+
+      option {
+        padding: 8px;
+        font-size: 1rem;
+      }
+    }
+  }
+
+  .time-slots-section {
+    margin-top: 20px;
+  }
+
+  .no-service-message {
+    text-align: center;
+    color: #666;
+    padding: 20px;
+    background: #f5f5f5;
+    border-radius: 4px;
+    margin: 20px 0;
+  }
+
+  .time-slots-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+
+    .time-slot {
+      padding: 10px;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      background: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover:not(:disabled) {
+        background: #e3f2fd;
+        border-color: #2196f3;
+      }
+
+      &:disabled {
+        background: #f5f5f5;
+        color: #999;
+        cursor: default;
+        border-color: #ddd;
+      }
+
+      &.past {
+        background: #f5f5f5;
+        border-color: #ddd;
+        cursor: default;
+
+        &.taken {
+          background: #ffebee;
+          border-color: #ffcdd2;
+          color: #d32f2f;
+        }
+      }
+
+      &.taken {
+        background: #ffebee;
+        border-color: #ffcdd2;
+        color: #d32f2f;
+        cursor: default;
+      }
+    }
+  }
+
+  .past-date-message {
+    margin-top: 20px;
+    padding: 12px;
+    background: #fff3e0;
+    border: 1px solid #ffe0b2;
+    border-radius: 4px;
+    color: #e65100;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+}
+
+// Calendar overrides
+:host ::ng-deep {
+  .cal-month-view {
+    .cal-cell-row:hover {
+      background-color: #f5f5f5;
+    }
+
+    .cal-cell:hover {
+      background-color: #e3f2fd;
+    }
+
+    .cal-disabled {
+      cursor: default;
+    }
+  }
+}
