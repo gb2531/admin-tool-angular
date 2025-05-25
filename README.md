@@ -1,27 +1,65 @@
-# AppointmentApp
+# Dental Appointment Management System
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.12.
+A modern, responsive web application built with Angular for managing dental appointments efficiently.
 
-## Development server
+## Features
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### Appointment Management
+- Create new appointments with detailed patient information
+- Update existing appointments
+- View appointments in a calendar view
+- Responsive form layout with two-column design
 
-## Code scaffolding
+### Appointment Form Fields
+- Patient Name
+- Service Selection (with pre-defined durations)
+  - General Consultation (30 mins)
+  - Dental Cleaning (60 mins)
+  - Root Canal (90 mins)
+  - Tooth Extraction (45 mins)
+  - Dental Implant Consultation (45 mins)
+  - Orthodontic Adjustment (30 mins)
+  - Teeth Whitening (60 mins)
+  - Dental X-Ray (15 mins)
+- Date Selection
+- Time Slot Selection
+- Appointment Duration (auto-calculated)
+- Description
+- Status (Scheduled/Completed/Cancelled)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### Smart Validation & Business Rules
+- Prevents booking appointments in the past
+- No appointments on Sundays
+- Business hours restricted to 9 AM - 5 PM
+- Automatic time slot conflict detection
+- Real-time validation of all form fields
+- Comprehensive error messages
 
-## Build
+### User Experience
+- Modern, clean interface
+- Responsive design adapting to different screen sizes
+- Clear feedback on form validation
+- Automatic duration calculation based on service
+- Success notifications for actions
+- Easy navigation between dashboard and form
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### Technical Features
+- Standalone Angular components
+- Reactive forms with custom validators
+- Real-time form state monitoring
+- Timezone handling for dates
+- Type-safe implementation with TypeScript
+- Modular architecture
 
-## Running unit tests
+## Routes
+- `/auth` - Authentication page
+- `/dashboard` - Main dashboard
+  - `/dashboard/calendar` - Calendar view
+  - `/dashboard/appointments/new` - Create new appointment
+  - `/dashboard/appointments/edit` - Edit existing appointment
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Dependencies
+- Angular (latest version)
+- Angular Calendar
+- Angular Forms
+- RxJS
